@@ -7,25 +7,35 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { UserRegistrationComponent } from './user-registration/user-registration.component';
 import { UserLoginComponent } from './user-login/user-login.component';
+import { ProtectedComponent } from './protected/protected.component';
+import {AuthGuard} from "./auth.guard";
+import {AuthService} from "./auth.service";
+import {LocalStorageModule, LocalStorageService} from "angular-2-local-storage";
 
 const appRoutes: Routes = [
   {path: '', component: UserRegistrationComponent, pathMatch: 'full'},
-  {path: 'login', component: UserLoginComponent}
+  {path: 'login', component: UserLoginComponent},
+  {path: 'protected', component: ProtectedComponent, canActivate:	[AuthGuard]}
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
     UserRegistrationComponent,
-    UserLoginComponent
+    UserLoginComponent,
+    ProtectedComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
+    LocalStorageModule.withConfig({
+      prefix: 'my-app',
+      storageType: 'localStorage'
+    }),
     BrowserModule,
     ReactiveFormsModule,
     HttpModule
   ],
-  providers: [],
+  providers: [AuthGuard, AuthService, LocalStorageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
