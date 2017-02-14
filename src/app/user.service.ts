@@ -1,14 +1,13 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Http, Headers, RequestOptions, Response} from "@angular/http";
 import {Observable} from "rxjs";
-import {LocalStorageService} from "angular-2-local-storage";
 
 @Injectable()
 export class UserService {
 
-  constructor(private localStorage : LocalStorageService, private http: Http) { }
-
   private url = 'http://localhost:3000/api/users';
+
+  constructor(private http: Http) { }
 
   addUser(user) : Observable<any> {
     let headers = new Headers({ 'Content-Type': 'application/json' });
@@ -33,14 +32,13 @@ export class UserService {
   private extractData(res: Response) {
     let body = res.json();
 
-    let token = res.headers.get('X-Access-Token');
+    let token = res.headers.get('Access-Token');
     console.log(`fucking token ${token}`);
 
     if (token)
       localStorage.setItem('access-token', token);
 
     console.log("PASSOUUUU");
-    console.log(body.data);
     return body || { };
   }
 

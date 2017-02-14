@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormGroup, FormControl} from "@angular/forms";
 import {UserService} from "../user.service";
+import {LocalStorageService} from "angular-2-local-storage";
 
 @Component({
   selector: 'app-user-login',
@@ -12,14 +13,13 @@ export class UserLoginComponent implements OnInit {
 
   user: FormGroup;
 
-  constructor(private userService: UserService) {}
+  constructor(private localStorage: LocalStorageService, private userService: UserService) {}
 
   ngOnInit() {
     this.user = new FormGroup({
       username: new FormControl(''),
       password: new FormControl('')
     });
-
   }
 
   onSubmit() {
@@ -29,5 +29,4 @@ export class UserLoginComponent implements OnInit {
         error => console.log(error)
       );
   }
-
 }

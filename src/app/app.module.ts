@@ -10,7 +10,7 @@ import { UserLoginComponent } from './user-login/user-login.component';
 import { ProtectedComponent } from './protected/protected.component';
 import {AuthGuard} from "./auth.guard";
 import {AuthService} from "./auth.service";
-import {LocalStorageModule, LocalStorageService} from "angular-2-local-storage";
+import {LocalStorageModule} from "angular-2-local-storage";
 
 const appRoutes: Routes = [
   {path: '', component: UserRegistrationComponent, pathMatch: 'full'},
@@ -35,7 +35,7 @@ const appRoutes: Routes = [
     ReactiveFormsModule,
     HttpModule
   ],
-  providers: [AuthGuard, AuthService, LocalStorageService],
+  providers: [AuthGuard, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

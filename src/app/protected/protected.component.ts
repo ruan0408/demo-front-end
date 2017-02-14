@@ -10,6 +10,7 @@ export class ProtectedComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    console.log(`getting token from storage ${localStorage.getItem('access-token')}`);
   }
 
 }
