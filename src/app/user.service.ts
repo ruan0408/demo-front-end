@@ -22,11 +22,11 @@ export class UserService {
   login(user) : any {
     let jsonUser = JSON.stringify(user);
 
-    let headers = new Headers({ 'Content-Type': 'application/json', 'X-Access-Token': 'text/plain' });
+    let headers = new Headers({ 'Content-Type': 'application/json'});
     let options = new RequestOptions({ headers: headers });
 
     return this.http.post('http://localhost:3000/auth', jsonUser, options)
-      .map(res => console.log(res.headers.get('X-Access-Token')))
+      .map(this.extractData)
       .catch(this.handleError);
   }
 
@@ -34,6 +34,7 @@ export class UserService {
     let body = res.json();
 
     let token = res.headers.get('X-Access-Token');
+    console.log(`fucking token ${token}`);
 
     if (token)
       localStorage.setItem('access-token', token);
