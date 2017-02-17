@@ -1,25 +1,26 @@
 import { Injectable } from '@angular/core';
-import {Http, Response} from "@angular/http";
-import {Observable} from "rxjs";
+import { Http } from "@angular/http";
 
 @Injectable()
 export class AuthService {
 
+  private static attemptedURL: string = '/protected';
+
   constructor(private http: Http) { }
 
-  isLoggedIn() {
-    let token = localStorage.getItem('access-token');
-
-    this.queryBackend(token).subscribe(
-      isLoggedIn => {return isLoggedIn} ,
-      error => console.log(error)
-    );
-    return false;
+  static getAttemptedURL() {
+    return AuthService.attemptedURL;
   }
 
-  queryBackend(token: string) : Observable<any> {
+  static setAttemptedURL(url: string) {
+    AuthService.attemptedURL = url;
+  }
+
+  isLoggedIn(): Promise<boolean> {
+    let token = localStorage.getItem('access-token');
+
     return this.http.get(`http://localhost:3000/auth?token=${token}`)
-      .map((res : Response) => res.status == 200)
-      .catch((err: Response) => Observable.throw(err));
+      .toPromise()
+      .then(response => response.json().isLoggedIn);
   }
 }

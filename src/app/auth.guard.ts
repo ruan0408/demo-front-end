@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {CanActivate, Router} from "@angular/router";
+import {CanActivate, Router, RouterStateSnapshot, ActivatedRouteSnapshot} from "@angular/router";
 import {AuthService} from "./auth.service";
 /**
  * Created by ruan0408 on 13/02/17.
@@ -8,15 +8,21 @@ import {AuthService} from "./auth.service";
 @Injectable()
 export class AuthGuard implements CanActivate {
 
-  auth: any = {};
-
   constructor(private authService: AuthService, private router: Router) {}
 
-  canActivate() {
-    if (this.authService.isLoggedIn())
-      return true;
-    else
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    console.log(route.url.toString());
+    return this.authService.isLoggedIn()
+      .then(isLoggedIn => this.handleIsLoggedIn(isLoggedIn, route.url.toString()))
+      .catch(err => console.log(err));
+  }
+
+  private handleIsLoggedIn(isLoggedIn, url) {
+    if (isLoggedIn) return true;
+    else {
+      AuthService.setAttemptedURL(url);
       this.router.navigate(['/login']);
-    return false;
+      return false;
+    }
   }
 }

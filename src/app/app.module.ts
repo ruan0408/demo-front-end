@@ -11,11 +11,13 @@ import { ProtectedComponent } from './protected/protected.component';
 import {AuthGuard} from "./auth.guard";
 import {AuthService} from "./auth.service";
 import {LocalStorageModule} from "angular-2-local-storage";
+import { ProfileComponent } from './profile/profile.component';
 
 const appRoutes: Routes = [
   {path: '', component: UserRegistrationComponent, pathMatch: 'full'},
   {path: 'login', component: UserLoginComponent},
-  {path: 'protected', component: ProtectedComponent, canActivate:	[AuthGuard]}
+  {path: 'protected', component: ProtectedComponent, canActivate:	[AuthGuard]},
+  {path: 'profile', component: ProfileComponent, canActivate:	[AuthGuard]}
 ];
 
 @NgModule({
@@ -23,7 +25,8 @@ const appRoutes: Routes = [
     AppComponent,
     UserRegistrationComponent,
     UserLoginComponent,
-    ProtectedComponent
+    ProtectedComponent,
+    ProfileComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
